@@ -2,6 +2,10 @@
   "name": "blazeb2-next",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "ryanuo",
+    "email": "ryanuo@aliyun.com"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
