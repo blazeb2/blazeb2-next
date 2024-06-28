@@ -18,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="scrollbar-thin scrollbar-w-8">
+    <html lang="en" className="scrollbar-thin scrollbar-w-8 dark">
       <body className={cn(
         'min-h-screen bg-background font-sans antialiased',
         fontSans.variable,

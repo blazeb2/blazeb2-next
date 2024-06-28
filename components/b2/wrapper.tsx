@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import { Folder, Layout, Workflow } from 'lucide-react'
+import { Icon } from '@iconify/react'
 import { Tree } from '@/components/ui/tree'
 
 const data = [
@@ -69,19 +70,25 @@ const data = [
   },
 ]
 
-export function FileFolder() {
+export function Wrapper() {
   const [content, setContent] = React.useState('Admin Page')
   return (
     <div className="flex min-h-full space-x-2">
-      <Tree
-        data={data}
-        className="flex-shrink-0 w-[200px] h-[460px] border-[1px]"
-        initialSlelectedItemId="f12"
-        onSelectChange={item => setContent(item?.name ?? '')}
-        folderIcon={Folder}
-        itemIcon={Workflow}
-      />
-      <div className="flex-1">{content}</div>
+      <aside className="flex-shrink-0 w-[300px] h-full p-2 border-r border-r-[--b2-other-color]">
+        <div className="flex items-center justify-between p-2 text-[--b2-text-color-bold]">
+          <h4>File Manage</h4>
+          <Icon icon="fluent:folder-add-32-regular" />
+        </div>
+        <Tree
+          data={data}
+          initialSlelectedItemId="f12"
+          className="h-[--aside-height]"
+          onSelectChange={item => setContent(item?.name ?? '')}
+          folderIcon={Folder}
+          itemIcon={Workflow}
+        />
+      </aside>
+      <section className="flex-1">{content}</section>
     </div>
   )
 }
