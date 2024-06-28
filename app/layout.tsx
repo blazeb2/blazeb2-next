@@ -18,11 +18,16 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="scrollbar-thin scrollbar-w-8">
       <body className={cn(
         'min-h-screen bg-background font-sans antialiased',
         fontSans.variable,
         'font-hs',
+        'bg-[--b2-bg-color]',
+        'text-[--b2-text-color]',
+        'overflow-hidden',
+        'h-full',
+        'w-full',
       )}
       >
         {children}

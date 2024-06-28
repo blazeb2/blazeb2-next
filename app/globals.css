@@ -13,6 +13,13 @@
       format('woff');
 }
 
+:root {
+  --b2-bg-color: #202425;
+  --b2-other-color: #3c3d41;
+  --b2-text-color: #9fa3a6;
+  --b2-text-color-bold: #fafcfc;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

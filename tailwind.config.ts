@@ -1,6 +1,7 @@
 /* eslint-disable ts/no-require-imports */
 import type { Config } from 'tailwindcss'
 import { fontFamily } from 'tailwindcss/defaultTheme'
+import tailwindScrollbar from 'tailwind-scrollbar'
 
 const config = {
   darkMode: ['class'],
@@ -80,7 +81,7 @@ const config = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [require('tailwindcss-animate'), tailwindScrollbar],
 } satisfies Config
 
 export default config

@@ -13,6 +13,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-accordion": "^1.2.0",
+    "@radix-ui/react-scroll-area": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -21,7 +23,9 @@
     "react": "^18",
     "react-dom": "^18",
     "tailwind-merge": "^2.3.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwind-scrollbar": "^3.1.0",
+    "tailwindcss-animate": "^1.0.7",
+    "use-resize-observer": "^9.1.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.21.1",
