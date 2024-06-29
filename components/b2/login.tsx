@@ -51,7 +51,7 @@ export function Login() {
               <FormItem>
                 <FormLabel>APPID</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <Input placeholder="please fit appid" {...field} />
                 </FormControl>
                 <FormDescription>
                   This is your public display name.
@@ -67,7 +67,7 @@ export function Login() {
               <FormItem>
                 <FormLabel>APPSECRET</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <Input placeholder="please fit appSecret" {...field} />
                 </FormControl>
                 <FormDescription>
                   This is your public display name.
