@@ -12,6 +12,11 @@ A Next.js app that uses the Imgur API to upload images
   <a href="https://blazeb2.js.org"><img src="https://img.shields.io/github/v/tag/blazeb2/blazeb2-next?color=729B1B&label="></a>
 <p>
 
+> [!IMPORTANT]
+> Rewriting blazeB2.
+
+## Features
+
 ## Star History
 
 ![Star History Chart](https://api.star-history.com/svg?repos=blazeb2/blazeb2-next&type=Date)
@@ -33,6 +38,3 @@ If you encounter any problems during use, please read them carefully **[docs](ht
 **[Apache License 2.0](https://github.com/blazeb2/blazeb2-next/blob/main/LICENSE)**
 
 Copyright © 2022-Present blazeB2
-
-> [!IMPORTANT]
-> Rewriting blazeB2.
