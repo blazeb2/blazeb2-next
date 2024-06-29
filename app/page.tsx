@@ -26,7 +26,6 @@ export default function Home() {
           <button onClick={toggle} className="rounded-md px-1 mx-1 py-2 dark:hover:bg-gray-800 h-full inline-flex justify-center items-center">
             <Icon icon={dark ? 'ph:moon' : 'ph:sun'} className="w-[1.2em] h-[1.2em]" />
           </button>
-          <Login />
         </div>
       </header>
       <Wrapper />

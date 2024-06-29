@@ -21,12 +21,10 @@ interface StorageConfig {
 export class B2 {
   private applicationKeyId: string
   private applicationKey: string
-  private bucketName: string
 
   constructor() {
     this.applicationKeyId = 'applicationKeyId'
     this.applicationKey = 'applicationKey'
-    this.bucketName = 'bucketName'
   }
 
   private async main(): Promise<StorageConfig> {
@@ -36,8 +34,7 @@ export class B2 {
 
     const url = 'https://api.backblazeb2.com/b2api/v2/b2_authorize_account'
     const response = await fetch(url, { headers: { Authorization: basicAuthString } })
-    const data = await response.json()
-    return data
+    return await response.json()
   }
 
   public async getUploadUrl(applicationKeyId: string, applicationKey: string): Promise<any> {
@@ -92,12 +89,17 @@ export class B2 {
     return await response.json()
   }
 
-  public async cList(apiUrl: string, bucketId: string, accountAuthorizationToken: string, startFileName: string = '', maxFileCount: number = 10, prefix: string = '', delimiter: string = ''): Promise<any> {
-    const params = { bucketId, startFileName, maxFileCount, prefix }
+  public async queryList(apiUrl: string, bucketId: string, accountAuthorizationToken: string, startFileName: string = '', maxFileCount: number = 10, prefix: string = '', delimiter: string = ''): Promise<any> {
+    const params: {
+      bucketId: string
+      startFileName: string
+      maxFileCount: number
+      prefix: string
+      delimiter?: string
+    } = { bucketId, startFileName, maxFileCount, prefix }
     if (delimiter) {
       params.delimiter = delimiter
     }
-
     const url = `${apiUrl}/b2api/v2/b2_list_file_names`
     const response = await fetch(url, {
       method: 'POST',

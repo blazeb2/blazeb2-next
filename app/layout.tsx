@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter as FontSans } from 'next/font/google'
 import './globals.css'
-import Head from 'next/head'
 import { cn } from '@/lib/utils'
 
 const fontSans = FontSans({
@@ -11,6 +10,7 @@ const fontSans = FontSans({
 export const metadata: Metadata = {
   title: 'Home | Blazeb2 Imgur',
   description: 'Blazeb2 Image Management',
+  icons: '/favicon.ico',
 }
 
 export default function RootLayout({
@@ -20,9 +20,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scrollbar-thin scrollbar-w-8 dark">
-      <Head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-      </Head>
       <body className={cn(
         'min-h-screen bg-background font-sans antialiased',
         fontSans.variable,
