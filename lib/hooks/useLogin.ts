@@ -30,7 +30,7 @@ export function useLogin() {
     setLoginInfo(null)
   }
 
-  const restTime = useMemo(() => {
+  const getRestTime = () => {
     if (!loginInfo) {
       return 'Login info not available'
     }
@@ -45,9 +45,8 @@ export function useLogin() {
     const hours = remainingDuration.hours() ?? '0'
     const minutes = remainingDuration.minutes() ?? '0'
 
-    // 返回格式化后的剩余时间字符串
     return `${hours}hour${minutes}min`
-  }, [loginInfo])
+  }
 
   const login = async ({ app_id, app_secret }: { app_id: string, app_secret: string }) => {
     const res = await createLogin({ app_id, app_secret })
@@ -69,5 +68,5 @@ export function useLogin() {
     }
   }, [loginInfo])
 
-  return { loginInfo, login, layout, restTime }
+  return { loginInfo, login, layout, getRestTime }
 }

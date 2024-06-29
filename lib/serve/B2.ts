@@ -18,6 +18,16 @@ interface StorageConfig {
   s3ApiUrl: string
 }
 
+export interface ListParamsProps {
+  apiUrl: string
+  bucketId: string
+  startFileName: string
+  maxFileCount: number
+  prefix: string
+  delimiter: string
+  initToken: string
+}
+
 export class B2 {
   private applicationKeyId: string
   private applicationKey: string
@@ -89,25 +99,31 @@ export class B2 {
     return await response.json()
   }
 
-  public async queryList(apiUrl: string, bucketId: string, accountAuthorizationToken: string, startFileName: string = '', maxFileCount: number = 10, prefix: string = '', delimiter: string = ''): Promise<any> {
-    const params: {
-      bucketId: string
-      startFileName: string
-      maxFileCount: number
-      prefix: string
-      delimiter?: string
-    } = { bucketId, startFileName, maxFileCount, prefix }
-    if (delimiter) {
-      params.delimiter = delimiter
-    }
+  public async queryList(params: ListParamsProps): Promise<any> {
+    const { apiUrl, bucketId, initToken, startFileName, maxFileCount, prefix, delimiter } = params
+    if (!startFileName)
+      params.startFileName = ''
+    if (!maxFileCount)
+      params.maxFileCount = 10
+    if (!prefix)
+      params.prefix = ''
+    if (!delimiter)
+      params.delimiter = ''
+
     const url = `${apiUrl}/b2api/v2/b2_list_file_names`
     const response = await fetch(url, {
       method: 'POST',
       headers: {
-        'Authorization': accountAuthorizationToken,
+        'Authorization': initToken,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(params),
+      body: JSON.stringify({
+        startFileName,
+        maxFileCount,
+        prefix,
+        delimiter,
+        bucketId,
+      }),
     })
 
     return await response.json()

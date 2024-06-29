@@ -17,7 +17,7 @@ import {
 function IconWrapper(props: { icon?: string, onClick?: () => void, iconStyle?: string, children?: React.ReactNode }) {
   const { icon, onClick, iconStyle, children } = props
   return (
-    <div onClick={onClick} className="cursor-pointer rounded-md px-1 mx-1 py-2 dark:hover:bg-gray-800 h-full inline-flex justify-center items-center">
+    <div onClick={onClick} className="cursor-pointer rounded-md px-2 mx-1 py-2 dark:hover:bg-gray-800 h-full inline-flex justify-center items-center">
       {children ? <>{children}</> : <><Icon icon={icon ?? ''} className={iconStyle} /></>}
     </div>
   )
@@ -25,7 +25,7 @@ function IconWrapper(props: { icon?: string, onClick?: () => void, iconStyle?: s
 
 export default function Home() {
   const { dark, toggle } = useDark()
-  const { loginInfo, layout, restTime } = useLogin()
+  const { loginInfo, layout, getRestTime } = useLogin()
   const { mounted } = useMounted()
 
   return (
@@ -52,7 +52,7 @@ export default function Home() {
                     <p>
                       Time until login expires...
                       <br />
-                      <span className="text-orange-300">{restTime}</span>
+                      <span className="text-orange-300">{getRestTime()}</span>
                     </p>
                   </TooltipContent>
                 </Tooltip>
