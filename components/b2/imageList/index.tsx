@@ -23,7 +23,7 @@ export function ImageList(props: ImageListProps) {
       case 'table':
         return <TableWrap files={files} />
       case 'masonry':
-        return <MasonryWrap />
+        return <MasonryWrap files={files} />
       default:
         return <></>
     }
@@ -31,7 +31,7 @@ export function ImageList(props: ImageListProps) {
 
   return (
     <>
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap relative">
         {renderImage(data)}
       </div>
       <ImagePreview ref={previewRef} />

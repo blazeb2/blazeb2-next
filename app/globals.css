@@ -104,3 +104,24 @@
     @apply bg-background text-foreground;
   }
 }
+
+/*react-masonry-component*/
+
+.my-gallery-class > div {
+  width: calc(100% - 16px); /* Adjusting for the added margin */
+  margin: 8px; /* Adds a gap around each image */
+}
+/*响应式布局：当屏幕宽度至少为 600px 但小于 900px 时，显示两列图片。*/
+@media (min-width: 600px) {
+  .my-gallery-class > div {
+    width: calc(50% - 16px); /* Adjusting for the added margin */
+    margin: 8px; /* Adds a gap around each image */
+  }
+}
+/*响应式布局：当屏幕宽度至少为 900px 时，显示四列图片。*/
+@media (min-width: 900px) {
+  .my-gallery-class > div {
+    width: calc(25% - 16px); /* Adjusting for the added margin */
+    margin: 8px; /* Adds a gap around each image */
+  }
+}
