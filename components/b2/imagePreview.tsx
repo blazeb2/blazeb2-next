@@ -42,3 +42,4 @@ export const ImagePreview = forwardRef((props, ref) => {
     />
   )
 })
+ImagePreview.displayName = 'ImagePreview'
