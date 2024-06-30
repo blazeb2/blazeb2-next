@@ -1,6 +1,7 @@
 'use client'
 
 import { Icon } from '@iconify/react'
+import Image from 'next/image'
 import { Wrapper } from '@/components/b2/wrapper'
 import { Button } from '@/components/ui/button'
 import useDark from '@/lib/hooks/useDark'
@@ -31,7 +32,7 @@ export default function Home() {
   return (
     <>
       <header className="h-14 flex justify-between items-center px-2 border-b border-b-[--b2-other-color]">
-        <h4><img className="h-8 mx-2 cursor-pointer" src={`/logo${dark ? '_dark' : ''}.png`} alt="blazeb2 logo imgur" /></h4>
+        <h4><Image width={48} height={40} className="h-8 mx-2 cursor-pointer" src={`/logo${dark ? '_dark' : ''}.png`} alt="blazeb2 logo imgur" /></h4>
         <div className="flex justify-between items-center">
           <Button className="dark:bg-accent h-8 text-white dark:hover:bg-accent/80 mr-2">
             <Icon icon="ph:upload-simple-bold" className="mr-1" />

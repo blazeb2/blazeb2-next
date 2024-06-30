@@ -77,6 +77,8 @@ const Leaf = React.forwardRef<
     </div>
   )
 })
+Leaf.displayName = 'Leaf'
+
 const TreeItem = React.forwardRef<
   HTMLDivElement,
   TreeItemProps
@@ -153,6 +155,7 @@ const TreeItem = React.forwardRef<
     </div>
   )
 })
+TreeItem.displayName = 'TreeItem'
 
 interface TreeDataItem {
   id: string
@@ -245,5 +248,6 @@ const Tree = React.forwardRef<
     </div>
   )
 })
+Tree.displayName = 'Tree'
 
 export { Tree, type TreeDataItem }

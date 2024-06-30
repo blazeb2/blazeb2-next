@@ -53,7 +53,7 @@ export function Wrapper() {
       }
     })
   }
-  const getFolderTree = (id?: string, prefix: string = '') => {
+  const getFolderTree = (loginInfo: any, id?: string, prefix: string = '') => {
     createList({
       apiUrl: loginInfo?.apiUrl ?? '',
       bucketId: loginInfo?.bucketId ?? '',
@@ -88,7 +88,7 @@ export function Wrapper() {
 
   useEffect(() => {
     if (loginInfo)
-      getFolderTree() // 获取根文件夹列表
+      getFolderTree(loginInfo) // 获取根文件夹列表
   }, [loginInfo])
 
   return (
@@ -102,7 +102,7 @@ export function Wrapper() {
           data={folder}
           className="h-[--aside-height]"
           onSelectChange={(item) => {
-            getFolderTree(item?.id, (item as FolderTree).folder)
+            getFolderTree(loginInfo, item?.id, (item as FolderTree).folder)
           }}
           folderIcon={Folder}
           itemIcon={Workflow}

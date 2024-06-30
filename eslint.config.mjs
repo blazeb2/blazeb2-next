@@ -7,5 +7,10 @@ export default antfu(
     formatters: {
       css: true,
     },
+    rules: {
+      'react/no-unstable-context-value': 'off',
+      'react/display-name': 'off',
+      'react-hooks/exhaustive-deps': 'off',
+    },
   },
 )
