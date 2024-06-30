@@ -1,3 +1,5 @@
+'use client'
+
 import { Icon } from '@iconify/react'
 import Image from 'rc-image'
 import 'rc-image/assets/index.css'

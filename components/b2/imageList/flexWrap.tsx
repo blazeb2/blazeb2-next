@@ -1,3 +1,5 @@
+'use client'
+
 import type { FileUploadInfo } from '@/app/api/list'
 
 interface flexWrapProps {

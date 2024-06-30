@@ -1,19 +1,26 @@
-import { useToggle } from 'ahooks'
 import { useEffect } from 'react'
+import { useConfigStore } from '../store/config'
 
 export default function useDark() {
-  const [state, { toggle }] = useToggle('dark', 'light')
+  const { theme, setTheme } = useConfigStore(state => state)
 
   useEffect(() => {
-    if (state === 'dark') {
-      document.documentElement.classList.add('dark')
+    const bodyClassList = document.documentElement.classList
+    if (theme === 'dark') {
+      bodyClassList.add('dark')
     }
-    if (state === 'light') {
-      document.documentElement.classList.remove('dark')
+    else {
+      bodyClassList.remove('dark')
     }
-  }, [state])
+  }, [theme])
+
+  const toggle = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark'
+    setTheme(newTheme)
+  }
+
   return {
-    dark: state === 'dark',
+    dark: theme === 'dark',
     toggle,
   }
 }
