@@ -65,7 +65,7 @@ const Leaf = React.forwardRef<
     <div
       ref={ref}
       className={cn(
-        'flex items-center py-2 px-2 cursor-pointer hover:before:opacity-100 before:absolute before:left-0 before:right-1 before:w-full before:opacity-0 before:bg-muted/80 before:h-[2rem] before:-z-10 before:rounded-md',
+        'flex items-center py-2 px-2 cursor-pointer hover:before:opacity-100 before:absolute before:left-0 before:right-1 before:w-full before:opacity-0 before:bg-muted/80 before:h-[2.4rem] before:-z-10 before:rounded-md',
         className,
         isSelected && 'before:opacity-100 before:bg-accent text-accent-foreground before:border-l-2 before:border-l-accent-foreground/50 dark:before:border-0',
       )}
@@ -96,7 +96,7 @@ const TreeItem = React.forwardRef<
                         <AccordionPrimitive.Item value={item.id}>
                           <AccordionTrigger
                             className={cn(
-                              'px-2 hover:before:opacity-100 before:absolute before:left-0 before:w-full before:opacity-0 before:bg-muted/80 before:h-[2rem] before:-z-10 before:rounded-md',
+                              'px-2 hover:before:opacity-100 before:absolute before:left-0 before:w-full before:opacity-0 before:bg-muted/80 before:h-[2.4rem] before:-z-10 before:rounded-md',
                               selectedItemId === item.id && 'before:opacity-100 before:bg-accent text-accent-foreground before:border-l-2 before:border-l-accent-foreground/50 dark:before:border-0',
                             )}
                             onClick={() => handleSelectChange(item)}
