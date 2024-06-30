@@ -14,6 +14,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { ImageLayout } from '@/components/b2/imageLayout'
 
 function IconWrapper(props: { icon?: string, onClick?: () => void, iconStyle?: string, children?: React.ReactNode }) {
   const { icon, onClick, iconStyle, children } = props
@@ -38,14 +39,15 @@ export default function Home() {
             <Icon icon="ph:upload-simple-bold" className="mr-1" />
             Upload
           </Button>
+          <ImageLayout />
           <IconWrapper>
             <Setting />
           </IconWrapper>
 
           <IconWrapper icon={dark ? 'ph:moon' : 'ph:sun'} iconStyle="w-[1.2em] h-[1.2em]" onClick={toggle} />
 
-          <IconWrapper>
-            {mounted && loginInfo && (
+          {mounted && loginInfo && (
+            <IconWrapper>
               <TooltipProvider delayDuration={100}>
                 <Tooltip>
                   <TooltipTrigger><Icon icon="ri:logout-circle-r-line" onClick={layout} /></TooltipTrigger>
@@ -58,8 +60,8 @@ export default function Home() {
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-            )}
-          </IconWrapper>
+            </IconWrapper>
+          )}
         </div>
       </header>
       <Wrapper />
