@@ -20,6 +20,12 @@
 
 @layer base {
   :root {
+    /* my theme ; */
+    --b2-bg-color: #ffffff;
+    --b2-other-color: #e1dfdf;
+    --b2-text-color: #000;
+    --b2-text-color-bold: #000;
+
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 

@@ -2,10 +2,11 @@
 
 import * as React from 'react'
 import type { LucideIcon } from 'lucide-react'
-import { Folder, Layout, Workflow } from 'lucide-react'
+import { Folder, Workflow } from 'lucide-react'
 import { Icon } from '@iconify/react'
 import { v4 as uuidv4 } from 'uuid'
 import { useEffect, useState } from 'react'
+import { ImageList } from './imageList'
 import { Tree } from '@/components/ui/tree'
 import type { FileUploadInfo } from '@/app/api/list'
 import { createList } from '@/app/api/list'
@@ -20,7 +21,7 @@ interface FolderTree {
 }
 
 export function Wrapper() {
-  const [content, setContent] = React.useState('Admin Page')
+  const [imageList, setImageList] = React.useState<FileUploadInfo[]>([])
 
   const { loginInfo } = useLogin()
   const [folder, setFolder] = useState<FolderTree[]>([])
@@ -64,6 +65,8 @@ export function Wrapper() {
     }).then((res) => {
       if (res.success) {
         const folderList = res?.data?.files?.filter(item => item.action === 'folder')
+        const imgs = res?.data?.files?.filter(item => item.action === 'upload') || []
+        setImageList(imgs)
         if (folderList) {
           if (folder.length === 0) {
             setFolder(folderList.map(i => formatData(i)))
@@ -99,16 +102,15 @@ export function Wrapper() {
           data={folder}
           className="h-[--aside-height]"
           onSelectChange={(item) => {
-            if (item?.children?.length === 0) {
-              getFolderTree(item.id, (item as FolderTree).folder)
-              setContent(item.name)
-            }
+            getFolderTree(item?.id, (item as FolderTree).folder)
           }}
           folderIcon={Folder}
           itemIcon={Workflow}
         />
       </aside>
-      <section className="flex-1">{content}</section>
+      <section className="flex-1 overflow-y-auto h-[90vh] scrollbar-thin scrollbar-w-8 p-2">
+        <ImageList data={imageList} />
+      </section>
     </div>
   )
 }
