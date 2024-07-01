@@ -31,7 +31,7 @@ export function ImageList(props: ImageListProps) {
 
   return (
     <>
-      <div className="flex flex-wrap relative">
+      <div className="flex flex-wrap relative h-[90vh]">
         {renderImage(data)}
       </div>
       <ImagePreview ref={previewRef} />

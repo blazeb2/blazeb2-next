@@ -2,6 +2,7 @@
 
 import { Icon } from '@iconify/react'
 import Image from 'next/image'
+import { useRef } from 'react'
 import { Wrapper } from '@/components/b2/wrapper'
 import { Button } from '@/components/ui/button'
 import useDark from '@/lib/hooks/useDark'
@@ -29,13 +30,23 @@ export default function Home() {
   const { dark, toggle } = useDark()
   const { loginInfo, layout, getRestTime } = useLogin()
   const { mounted } = useMounted()
+  const uploadWrapRef = useRef<{
+    show: () => void
+    hide: () => void
+    toggle: () => void
+  }>(null)
 
   return (
     <>
       <header className="h-14 flex justify-between items-center px-2 border-b border-b-[--b2-other-color]">
         <h4><Image width={48} height={40} className="h-8 mx-2 cursor-pointer" src={`/logo${dark ? '_dark' : ''}.png`} alt="blazeb2 logo imgur" /></h4>
         <div className="flex justify-between items-center">
-          <Button className="dark:bg-accent h-8 text-white dark:hover:bg-accent/80 mr-2">
+          <Button
+            onClick={() => {
+              uploadWrapRef.current?.toggle()
+            }}
+            className="dark:bg-accent h-8 text-white dark:hover:bg-accent/80 mr-2"
+          >
             <Icon icon="ph:upload-simple-bold" className="mr-1" />
             Upload
           </Button>
@@ -64,7 +75,7 @@ export default function Home() {
           )}
         </div>
       </header>
-      <Wrapper />
+      <Wrapper uploadWrapRef={uploadWrapRef} />
     </>
   )
 }

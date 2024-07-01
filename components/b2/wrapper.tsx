@@ -6,7 +6,9 @@ import { Folder, Workflow } from 'lucide-react'
 import { Icon } from '@iconify/react'
 import { v4 as uuidv4 } from 'uuid'
 import { useEffect, useState } from 'react'
+import type { Ref } from 'react-hook-form'
 import { ImageList } from './imageList'
+import { UploadWrap } from './uploadWrap'
 import { Tree } from '@/components/ui/tree'
 import type { FileUploadInfo } from '@/app/api/list'
 import { createList } from '@/app/api/list'
@@ -20,8 +22,15 @@ interface FolderTree {
   children?: FolderTree[]
 }
 
-export function Wrapper() {
+interface IWrapper {
+  uploadWrapRef: React.RefObject<{
+    show: () => void
+    hide: () => void
+  }>
+}
+export function Wrapper(props: IWrapper) {
   const [imageList, setImageList] = React.useState<FileUploadInfo[]>([])
+  const { uploadWrapRef } = props
 
   const { loginInfo } = useLogin()
   const [folder, setFolder] = useState<FolderTree[]>([])
@@ -108,7 +117,8 @@ export function Wrapper() {
           itemIcon={Workflow}
         />
       </aside>
-      <section className="flex-1 overflow-y-auto h-[90vh] scrollbar-thin scrollbar-w-8 p-2">
+      <section id="section-b2" className="flex-1 overflow-y-auto min-h-[max-content] scrollbar-thin scrollbar-w-8 p-2 relative">
+        <UploadWrap ref={uploadWrapRef} />
         <ImageList data={imageList} />
       </section>
     </div>
