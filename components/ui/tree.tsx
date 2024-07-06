@@ -201,6 +201,7 @@ const Tree = React.forwardRef<
     if (!initialSlelectedItemId) {
       return [] as string[]
     }
+    setSelectedItemId(initialSlelectedItemId) // fix init selected item
 
     const ids: string[] = []
 

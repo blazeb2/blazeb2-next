@@ -1,6 +1,6 @@
 import * as crypto from 'node:crypto'
 import { Buffer } from 'node:buffer'
-import * as uuid from 'uuid'
+import { v4 as uuidv4 } from 'uuid'
 
 interface StorageConfig {
   absoluteMinimumPartSize: number
@@ -26,6 +26,14 @@ export interface ListParamsProps {
   prefix: string
   delimiter: string
   initToken: string
+}
+
+export interface UploadParamsProps {
+  uploadUrl: string
+  authorizationToken: string
+  fileData: Buffer
+  toFile: string
+  format: string
 }
 
 export class B2 {
@@ -76,13 +84,14 @@ export class B2 {
     }
   }
 
-  public async uploadSource(uploadUrl: string, uploadAuthorizationToken: string, fileData: Buffer, toFile: string, format: string): Promise<any> {
-    const b2FileName = `${toFile}${uuid.v4()}.${format}`
+  public async uploadSource(params: UploadParamsProps): Promise<any> {
+    const { uploadUrl, authorizationToken, fileData, toFile, format } = params
+    const b2FileName = `${toFile}${uuidv4()}.${format}`
     const contentType = 'b2/x-auto'
     const sha1OfFileData = crypto.createHash('sha1').update(fileData).digest('hex')
 
     const headers = {
-      'Authorization': uploadAuthorizationToken,
+      'Authorization': authorizationToken,
       'X-Bz-File-Name': b2FileName,
       'Content-Type': contentType,
       'X-Bz-Content-Sha1': sha1OfFileData,

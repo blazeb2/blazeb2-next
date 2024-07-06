@@ -20,6 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scrollbar-thin scrollbar-w-8 dark">
+      <head>
+        <link rel="stylesheet" href="https://s1.hdslb.com/bfs/static/jinkela/long/font/regular.css" />
+      </head>
       <body className={cn(
         'min-h-screen bg-background font-sans antialiased',
         fontSans.variable,

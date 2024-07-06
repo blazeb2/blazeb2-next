@@ -1,26 +1,20 @@
 'use client'
 
 import * as React from 'react'
-import type { LucideIcon } from 'lucide-react'
 import { Folder, Workflow } from 'lucide-react'
 import { Icon } from '@iconify/react'
 import { v4 as uuidv4 } from 'uuid'
-import { useEffect, useState } from 'react'
-import type { Ref } from 'react-hook-form'
+import { useEffect } from 'react'
+
 import { ImageList } from './imageList'
 import { UploadWrap } from './uploadWrap'
+import { Loading } from './loading'
 import { Tree } from '@/components/ui/tree'
 import type { FileUploadInfo } from '@/app/api/list'
 import { createList } from '@/app/api/list'
 import { useLogin } from '@/lib/hooks/useLogin'
-
-interface FolderTree {
-  id: string
-  name: string
-  icon?: LucideIcon
-  folder?: string
-  children?: FolderTree[]
-}
+import type { FolderTree } from '@/lib/store/config'
+import { useConfigStore } from '@/lib/store/config'
 
 interface IWrapper {
   uploadWrapRef: React.RefObject<{
@@ -31,9 +25,10 @@ interface IWrapper {
 export function Wrapper(props: IWrapper) {
   const [imageList, setImageList] = React.useState<FileUploadInfo[]>([])
   const { uploadWrapRef } = props
+  const { selected, setSelected, folder, setFolder } = useConfigStore(state => state)
+  const [isLoading, setIsLoading] = React.useState(false)
 
   const { loginInfo } = useLogin()
-  const [folder, setFolder] = useState<FolderTree[]>([])
 
   const formatData = (i: FileUploadInfo) => {
     const len = i.fileName.split('/')
@@ -63,6 +58,7 @@ export function Wrapper(props: IWrapper) {
     })
   }
   const getFolderTree = (loginInfo: any, id?: string, prefix: string = '') => {
+    setIsLoading(true)
     createList({
       apiUrl: loginInfo?.apiUrl ?? '',
       bucketId: loginInfo?.bucketId ?? '',
@@ -92,26 +88,38 @@ export function Wrapper(props: IWrapper) {
           }
         }
       }
+    }).finally(() => {
+      setIsLoading(false)
     })
   }
 
   useEffect(() => {
-    if (loginInfo)
+    const f = JSON.parse(localStorage.getItem('b2-config-storage') || '{}')?.state?.folder || []
+    if (loginInfo && f?.length === 0) {
       getFolderTree(loginInfo) // 获取根文件夹列表
-  }, [loginInfo])
+    }
+
+    if (loginInfo && selected?.id) {
+      getFolderTree(loginInfo, selected.id, selected.folder)
+    }
+  }, [loginInfo, selected])
 
   return (
-    <div className="flex min-h-full space-x-2">
+    <div className="flex min-h-full space-x-2 relative">
       <aside className="flex-shrink-0 w-[300px] h-full p-2 border-r border-r-[--b2-other-color]">
         <div className="flex items-center justify-between p-2 text-[--b2-text-color-bold]">
           <h4>File Manage</h4>
           <Icon icon="fluent:folder-add-32-regular" className="h-[1.5em] w-[1.5em] cursor-pointer hover:scale-110" />
         </div>
         <Tree
+          initialSlelectedItemId={selected?.id}
           data={folder}
           className="h-[--aside-height]"
           onSelectChange={(item) => {
-            getFolderTree(loginInfo, item?.id, (item as FolderTree).folder)
+            setSelected({
+              folder: (item as FolderTree).folder as string,
+              id: (item as FolderTree).id,
+            })
           }}
           folderIcon={Folder}
           itemIcon={Workflow}
@@ -121,6 +129,7 @@ export function Wrapper(props: IWrapper) {
         <UploadWrap ref={uploadWrapRef} />
         <ImageList data={imageList} />
       </section>
+      <Loading isShow={isLoading} />
     </div>
   )
 }

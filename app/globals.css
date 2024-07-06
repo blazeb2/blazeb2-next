@@ -1,8 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('./animate.css');
 
-@font-face {
+/* @font-face {
   font-family: HarmonyOS_Sans_SC_Medium;
   font-style: normal;
   font-display: swap;
@@ -11,7 +12,7 @@
       format('woff2'),
     url('https://cdn.jsdelivr.net/gh/irozhi/HarmonyOS-Sans/HarmonyOS_Sans_SC/HarmonyOS_Sans_SC_Medium.woff')
       format('woff');
-}
+} */
 
 :root {
   /* aside height */
@@ -55,7 +56,7 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
-    --font-hs: HarmonyOS_Sans_SC_Medium;
+    --font-hs: HarmonyOS_Regular;
   }
 
   .dark {
@@ -92,7 +93,7 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
-    --font-hs: HarmonyOS_Sans_SC_Medium;
+    --font-hs: HarmonyOS_Regular;
   }
 }
 
