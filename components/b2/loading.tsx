@@ -15,7 +15,7 @@ export function Loading(props: LoadingProps) {
       cn(
         'fadeIn animated',
         'w-[99vw] h-[95vh]',
-        'absolute top-0 left-0',
+        'absolute top-0 left-0 z-50',
         'flex justify-center items-center',
         'bg-[#000000a1] dark:bg-[#676767ab] backdrop-blur-sm rounded-sm',
         className,

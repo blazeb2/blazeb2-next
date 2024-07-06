@@ -9,10 +9,19 @@ import { cn } from '@/lib/utils'
 import { useLogin } from '@/lib/hooks/useLogin'
 import { useConfigStore } from '@/lib/store/config'
 
-export const UploadWrap = forwardRef((props, ref) => {
+interface FileItem extends File {
+  uid: string
+  preview?: string
+}
+interface UploadWrapProps {
+  className?: string
+  callback?: () => void
+}
+export const UploadWrap = forwardRef((props: UploadWrapProps, ref) => {
+  const { callback } = props
   const { loginInfo } = useLogin()
   const [isShow, setIsShow] = useState(false)
-  const [files, setFiles] = useState<File[]>([])
+  const [files, setFiles] = useState<FileItem[]>([])
   const { selected } = useConfigStore(state => state)
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -89,12 +98,14 @@ export const UploadWrap = forwardRef((props, ref) => {
       <div
         onClick={(e) => {
           e.stopPropagation()
+          callback?.()
+          setFiles([])
           setIsShow(false)
         }}
         className={
           cn(
             'p-2',
-            'absolute top-3 right-3 z-11',
+            'absolute top-3 right-3 z-20',
             'cursor-pointer hover:scale-110',
             'flex justify-center items-center',
           )
@@ -104,12 +115,34 @@ export const UploadWrap = forwardRef((props, ref) => {
           icon="rivet-icons:close"
         />
       </div>
-      <div className="absolute bottom-48 w-full flex items-center justify-center text-white">
-        <div className="rounded-full dark:bg-accent bg-primary flex justify-center gap-1 hover:scale-110 cursor-pointer items-center px-12 py-2 flex-col">
-          <Icon icon="icon-park-outline:upload-two" className="text-2xl" />
-          <p className="text-center font-bold">Click to Upload or Drag and drop</p>
-          <p className="text-xs">Drop any jpg, png, gif, or...</p>
+      <div className={
+        cn(
+          'absolute w-full text-white z-10',
+          'flex items-center justify-center',
+          files.length > 0 ? 'h-screen' : 'bottom-48',
+        )
+      }
+      >
+        <div className="flex-1 flex justify-center gap-1 items-center flex-col">
+          <div className={
+          cn(
+            'rounded-full dark:bg-accent bg-primary hover:scale-110 cursor-pointer px-12 py-2',
+            'flex justify-center gap-1 items-center flex-col',
+          )
+        }
+          >
+            <Icon icon="icon-park-outline:upload-two" className="text-2xl" />
+            <p className="text-center font-bold">Click to Upload or Drag and drop</p>
+            <p className="text-xs">Drop any jpg, png, gif, or...</p>
+          </div>
         </div>
+        {
+          files?.length > 0 && (
+            <ul className="flex-[2]">
+              {files?.map(file => <li key={file.uid}>{file.name}</li>)}
+            </ul>
+          )
+        }
       </div>
     </div>
   )

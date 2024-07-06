@@ -126,7 +126,12 @@ export function Wrapper(props: IWrapper) {
         />
       </aside>
       <section id="section-b2" className="flex-1 overflow-y-auto min-h-[max-content] scrollbar-thin scrollbar-w-8 p-2 relative">
-        <UploadWrap ref={uploadWrapRef} />
+        <UploadWrap
+          ref={uploadWrapRef}
+          callback={() => {
+            getFolderTree(loginInfo, selected.id, selected.folder)
+          }}
+        />
         <ImageList data={imageList} />
       </section>
       <Loading isShow={isLoading} />
