@@ -10,9 +10,10 @@ import { useConfigStore } from '@/lib/store/config'
 
 interface ImageListProps {
   data: FileUploadInfo[]
+  callback: () => void
 }
 export function ImageList(props: ImageListProps) {
-  const { data } = props
+  const { data, callback } = props
   const previewRef = useRef<{ showImage: (src: string) => void }>(null)
   const { imgLayout } = useConfigStore(state => state)
 
@@ -21,7 +22,7 @@ export function ImageList(props: ImageListProps) {
       case 'grid':
         return files.map(file => <FlexWrap file={file} key={file.fileName} previewRef={previewRef} />)
       case 'table':
-        return <TableWrap files={files} />
+        return <TableWrap files={files} callback={callback} />
       case 'masonry':
         return <MasonryWrap files={files} />
       default:

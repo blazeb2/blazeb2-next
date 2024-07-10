@@ -13,7 +13,7 @@ export async function POST(request: Request): Promise<Response> {
   const b2 = await new B2()
     .uploadSource({
       fileData: buf.Buffer.from(await file.arrayBuffer()),
-      format: '.png',
+      format: 'png',
       toFile,
       uploadUrl,
       authorizationToken,

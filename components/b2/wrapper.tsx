@@ -104,6 +104,10 @@ export function Wrapper(props: IWrapper) {
     }
   }, [loginInfo, selected])
 
+  const resetResquest = () => {
+    getFolderTree(loginInfo, selected.id, selected.folder)
+  }
+
   return (
     <div className="flex min-h-full space-x-2 relative">
       <aside className="flex-shrink-0 w-[300px] h-full p-2 border-r border-r-[--b2-other-color]">
@@ -128,11 +132,9 @@ export function Wrapper(props: IWrapper) {
       <section id="section-b2" className="flex-1 overflow-y-auto min-h-[max-content] scrollbar-thin scrollbar-w-8 p-2 relative">
         <UploadWrap
           ref={uploadWrapRef}
-          callback={() => {
-            getFolderTree(loginInfo, selected.id, selected.folder)
-          }}
+          callback={resetResquest}
         />
-        <ImageList data={imageList} />
+        <ImageList data={imageList} callback={resetResquest} />
       </section>
       <Loading isShow={isLoading} />
     </div>

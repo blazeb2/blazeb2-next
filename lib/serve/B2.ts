@@ -36,6 +36,13 @@ export interface UploadParamsProps {
   format: string
 }
 
+export interface IDeleteFileParams {
+  apiUrl: string
+  fileName: string
+  init_token: string
+  fileId: string
+}
+
 export class B2 {
   private applicationKeyId: string
   private applicationKey: string
@@ -132,6 +139,24 @@ export class B2 {
         prefix,
         delimiter,
         bucketId,
+      }),
+    })
+
+    return await response.json()
+  }
+
+  public async deleteFile(params: IDeleteFileParams) {
+    const { fileName, fileId, apiUrl, init_token } = params
+    const url = `${apiUrl}/b2api/v2/b2_delete_file_version`
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Authorization': init_token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        fileId,
+        fileName,
       }),
     })
 
