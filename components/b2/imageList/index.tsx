@@ -20,7 +20,14 @@ export function ImageList(props: ImageListProps) {
   const renderImage = (files: FileUploadInfo[]) => {
     switch (imgLayout) {
       case 'grid':
-        return files.map(file => <FlexWrap file={file} key={file.fileName} previewRef={previewRef} />)
+        return files.map(file => (
+          <FlexWrap
+            callback={callback}
+            file={file}
+            key={file.fileName}
+            previewRef={previewRef}
+          />
+        ))
       case 'table':
         return <TableWrap files={files} callback={callback} />
       case 'masonry':
