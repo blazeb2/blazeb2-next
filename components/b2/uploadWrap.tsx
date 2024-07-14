@@ -156,6 +156,7 @@ export const UploadWrap = forwardRef((props: UploadWrapProps, ref) => {
       if (isShow) {
         sectionB2.style.overflow = 'hidden'
         sectionB2.style.marginRight = '0.625rem'
+        sectionB2.scrollTop = 0 // 滚动到顶部
       }
       else {
         sectionB2.style.overflow = 'auto'
