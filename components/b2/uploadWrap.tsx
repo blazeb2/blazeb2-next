@@ -7,6 +7,7 @@ import { useDropzone } from 'react-dropzone'
 import { v4 as uuidv4 } from 'uuid'
 import { useHotkeys } from 'react-hotkeys-hook'
 
+import { useToast } from '@/components/ui/use-toast'
 import { cn } from '@/lib/utils'
 import { useLogin } from '@/lib/hooks/useLogin'
 import { useConfigStore } from '@/lib/store/config'
@@ -62,6 +63,7 @@ export const UploadWrap = forwardRef((props: UploadWrapProps, ref) => {
   })
   const [files, setFiles] = useState<FileItem[]>([])
   const { selected } = useConfigStore(state => state)
+  const { toast } = useToast()
 
   useHotkeys('esc', () => {
     if (files.length) {
@@ -161,6 +163,41 @@ export const UploadWrap = forwardRef((props: UploadWrapProps, ref) => {
       }
     }
   }, [isShow])
+
+  const handlePaste = (event: any) => {
+    const items = event.clipboardData.items
+    const uploadWaits = []
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i]
+      if (item.kind === 'file') {
+        const blob = item.getAsFile()
+        uploadWaits.push(Object.assign(blob, {
+          uid: uuidv4(),
+          preview: URL.createObjectURL(blob),
+        }))
+      }
+    }
+
+    if (uploadWaits.length > 0) {
+      setIsShow(true)
+      setFiles(uploadWaits)
+    }
+    else {
+      toast({
+        title: 'No image found.',
+        description: 'Please check if there is an image in the clipboard.',
+        variant: 'destructive',
+      })
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener('paste', handlePaste)
+    return () => {
+      document.removeEventListener('paste', handlePaste)
+    }
+  }, [])
+
   return isShow && (
     <div
       className={cn(
