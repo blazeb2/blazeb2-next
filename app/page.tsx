@@ -3,6 +3,8 @@
 import { Icon } from '@iconify/react'
 import Image from 'next/image'
 import { useRef } from 'react'
+
+import { breeSerif } from './fonts'
 import { Wrapper } from '@/components/b2/wrapper'
 import { Button } from '@/components/ui/button'
 import useDark from '@/lib/hooks/useDark'
@@ -16,6 +18,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { ImageLayout } from '@/components/b2/imageLayout'
+import { cn } from '@/lib/utils'
 
 function IconWrapper(props: { icon?: string, onClick?: () => void, iconStyle?: string, children?: React.ReactNode }) {
   const { icon, onClick, iconStyle, children } = props
@@ -38,41 +41,55 @@ export default function Home() {
 
   return (
     <>
-      <header className="h-14 flex justify-between items-center px-2 border-b border-b-[--b2-other-color]">
-        <h4><Image width={48} height={40} className="h-8 mx-2 cursor-pointer" src={`/logo${dark ? '_dark' : ''}.png`} alt="blazeb2 logo imgur" /></h4>
-        <div className="flex justify-between items-center">
-          <Button
-            onClick={() => {
-              uploadWrapRef.current?.toggle()
-            }}
-            className="dark:bg-accent h-8 text-white dark:hover:bg-accent/80 mr-2"
+      <header className="h-14 flex items-center px-2 border-b border-b-[--b2-other-color]">
+        <h4 className="w-[300px]">
+          <Image width={48} height={40} className="h-8 mx-2 cursor-pointer inline-block" src={`/logo${dark ? '_dark' : ''}.png`} alt="blazeb2 logo imgur" />
+          <span className={
+            cn(
+              'font-normal',
+              breeSerif.variable,
+              'font-breeSerif',
+            )
+          }
           >
-            <Icon icon="ph:upload-simple-bold" className="mr-1" />
-            Upload
-          </Button>
+            Imgur Blazeb2 Next
+          </span>
+        </h4>
+        <div className="flex justify-between items-center flex-auto">
           <ImageLayout />
-          <IconWrapper>
-            <Setting />
-          </IconWrapper>
-
-          <IconWrapper icon={dark ? 'ph:moon' : 'ph:sun'} iconStyle="w-[1.2em] h-[1.2em]" onClick={toggle} />
-
-          {mounted && loginInfo && (
+          <div className="flex justify-between items-center">
+            <Button
+              onClick={() => {
+                uploadWrapRef.current?.toggle()
+              }}
+              className="dark:bg-accent h-8 text-white dark:hover:bg-accent/80 mr-2"
+            >
+              <Icon icon="ph:upload-simple-bold" className="mr-1" />
+              Upload
+            </Button>
             <IconWrapper>
-              <TooltipProvider delayDuration={100}>
-                <Tooltip>
-                  <TooltipTrigger><Icon icon="ri:logout-circle-r-line" onClick={layout} /></TooltipTrigger>
-                  <TooltipContent sideOffset={15}>
-                    <p>
-                      Time until login expires...
-                      <br />
-                      <span className="text-orange-300">{getRestTime()}</span>
-                    </p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+              <Setting />
             </IconWrapper>
-          )}
+
+            <IconWrapper icon={dark ? 'ph:moon' : 'ph:sun'} iconStyle="w-[1.2em] h-[1.2em]" onClick={toggle} />
+
+            {mounted && loginInfo && (
+              <IconWrapper>
+                <TooltipProvider delayDuration={100}>
+                  <Tooltip>
+                    <TooltipTrigger><Icon icon="ri:logout-circle-r-line" onClick={layout} /></TooltipTrigger>
+                    <TooltipContent sideOffset={15}>
+                      <p>
+                        Time until login expires...
+                        <br />
+                        <span className="text-orange-300">{getRestTime()}</span>
+                      </p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </IconWrapper>
+            )}
+          </div>
         </div>
       </header>
       <Wrapper uploadWrapRef={uploadWrapRef} />

@@ -24,6 +24,7 @@ const config = {
       fontFamily: {
         sans: ['var(--font-sans)', ...fontFamily.sans],
         hs: ['var(--font-hs)'],
+        breeSerif: ['var(--font-breeSerif)'],
       },
       colors: {
         border: 'hsl(var(--border))',
