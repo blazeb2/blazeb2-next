@@ -7,10 +7,9 @@ import { Footer } from '@/components/footer'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Docs stater template',
-  metadataBase: new URL('https://docstemplate.vercel.app/'),
-  description:
-    'This comprehensive documentation template, crafted with Next.js and available as open-source, delivers a sleek and responsive design, tailored to meet all your project documentation requirements.',
+  title: 'Docs Imgur Blazeb2 Next',
+  metadataBase: new URL('https://blazeb2-next-docs.ryanuo.cc'),
+  description: 'blazeb2-next is a cloud-based image hosting management system built on Next.js.',
 }
 
 export default function RootLayout({

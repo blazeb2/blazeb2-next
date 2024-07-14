@@ -1,33 +1,27 @@
-import { GithubIcon, HexagonIcon, TwitterIcon } from 'lucide-react'
+import { GithubIcon } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { buttonVariants } from './ui/button'
 import Search from './search'
 import Anchor from './anchor'
 import { SheetLeftbar } from './leftbar'
+import { Online } from './online'
 import { ModeToggle } from '@/components/theme-toggle'
 import { page_routes } from '@/lib/routes-config'
 import { SheetClose } from '@/components/ui/sheet'
 
 export const NAVLINKS = [
   {
-    title: 'Documentation',
+    title: 'Guides',
     href: `/docs/${page_routes[0].href}`,
   },
   {
-    title: 'Examples',
-    href: '#',
-  },
-  {
-    title: 'Guides',
-    href: '#',
-  },
-  {
-    title: 'Community',
-    href: '#',
-  },
-  {
     title: 'Blog',
-    href: '#',
+    href: 'https://ryanuo.cc/posts/rewrite-blazeb2',
+  },
+  {
+    title: 'Issues',
+    href: 'https://github.com/blazeb2/blazeb2-next/issues',
   },
 ]
 
@@ -51,20 +45,12 @@ export function Navbar() {
           <div className="flex items-center gap-2">
             <Search />
             <div className="flex">
+              <Online />
               <Link
-                href="https://github.com/nisabmohd/Docs-Stater-Template"
+                href="https://github.com/blazeb2/blazeb2-next"
                 className={buttonVariants({ variant: 'ghost', size: 'icon' })}
               >
                 <GithubIcon className="h-[1.1rem] w-[1.1rem]" />
-              </Link>
-              <Link
-                href="#"
-                className={buttonVariants({
-                  variant: 'ghost',
-                  size: 'icon',
-                })}
-              >
-                <TwitterIcon className="h-[1.1rem] w-[1.1rem]" />
               </Link>
               <ModeToggle />
             </div>
@@ -78,8 +64,8 @@ export function Navbar() {
 export function Logo() {
   return (
     <Link href="/" className="flex items-center gap-2.5">
-      <HexagonIcon className="w-7 h-7 text-muted-foreground fill-current" />
-      <h2 className="text-md font-bold">template/docs</h2>
+      <Image src="/logo.png" alt="logo" width={40} height={40} />
+      <h2 className="text-md font-bold">Blazeb2-next/docs</h2>
     </Link>
   )
 }
@@ -93,6 +79,7 @@ export function NavMenu({ isSheet = false }) {
             key={item.title + item.href}
             activeClassName="text-black dark:text-white font-semibold"
             absolute
+            target={item.href.startsWith('http') ? '_blank' : undefined}
             href={item.href}
           >
             {item.title}
