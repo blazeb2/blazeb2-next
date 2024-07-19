@@ -1,5 +1,6 @@
 import path from 'node:path'
 import { promises as fs } from 'node:fs'
+import * as process from 'node:process'
 import { compileMDX } from 'next-mdx-remote/rsc'
 import remarkGfm from 'remark-gfm'
 import rehypePrism from 'rehype-prism-plus'
@@ -8,7 +9,6 @@ import rehypeSlug from 'rehype-slug'
 import rehypeCodeTitles from 'rehype-code-titles'
 import { visit } from 'unist-util-visit'
 import { page_routes } from './routes-config'
-
 // custom components imports
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import Pre from '@/components/pre'
@@ -90,7 +90,6 @@ function sluggify(text: string) {
 }
 
 function getContentPath(slug: string) {
-  // eslint-disable-next-line node/prefer-global/process
   return path.join(process.cwd(), '/contents/docs/', `${slug}.mdx`)
 }
 
