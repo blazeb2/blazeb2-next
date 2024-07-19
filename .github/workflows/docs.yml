@@ -1,0 +1,27 @@
+name: DOCS
+
+on:
+  push:
+    branches:
+      - main  # 当在main分支上有代码推送时触发
+
+jobs:
+  docs-build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3  # 检出代码
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4  
+      with:
+        node-version: '18'
+
+    - name: Deploy to Docs
+      uses: JamesIves/github-pages-deploy-action@v4.6.1  # 使用部署到Docs的Action
+      with:
+        token: ${{ secrets.ACCESS_TOKEN }}  # GitHub Token，需要在仓库Secrets中设置
+        branch: docs  # 要部署到的分支
+        repository-name: blazeb2/blazeb2-next
+        folder: ./docs
