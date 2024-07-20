@@ -113,7 +113,23 @@ export function Wrapper(props: IWrapper) {
       <aside className="flex-shrink-0 w-[300px] h-full p-2 border-r border-r-[--b2-other-color]">
         <div className="flex items-center justify-between p-2 text-[--b2-text-color-bold]">
           <h4>File Manage</h4>
-          <Icon icon="fluent:folder-add-32-regular" className="h-[1.5em] w-[1.5em] cursor-pointer hover:scale-110" />
+          <div className="flex gap-2">
+            <Icon icon="fluent:folder-add-32-regular" className="h-[1.5em] w-[1.5em] cursor-pointer hover:scale-110" />
+            <Icon
+              icon="ci:arrows-reload-01"
+              className="h-[1.5em] w-[1.5em] cursor-pointer hover:scale-110"
+              onClick={() => {
+                if (!loginInfo)
+                  return
+                setFolder([])
+                getFolderTree(loginInfo)
+                setSelected({
+                  folder: '',
+                  id: '',
+                })
+              }}
+            />
+          </div>
         </div>
         <Tree
           initialSlelectedItemId={selected?.id}
