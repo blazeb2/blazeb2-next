@@ -9,6 +9,7 @@ import { useEffect } from 'react'
 import { ImageList } from './imageList'
 import { UploadWrap } from './uploadWrap'
 import { Loading } from './loading'
+import { CreateFolderModal } from './createFolderModal'
 import { Tree } from '@/components/ui/tree'
 import type { FileUploadInfo } from '@/app/api/list'
 import { createList } from '@/app/api/list'
@@ -114,9 +115,8 @@ export function Wrapper(props: IWrapper) {
         <div className="flex items-center justify-between p-2 text-[--b2-text-color-bold]">
           <h4>File Manage</h4>
           <div className="flex gap-2">
-            <Icon icon="fluent:folder-add-32-regular" className="h-[1.5em] w-[1.5em] cursor-pointer hover:scale-110" />
             <Icon
-              icon="ci:arrows-reload-01"
+              icon="solar:refresh-bold-duotone"
               className="h-[1.5em] w-[1.5em] cursor-pointer hover:scale-110"
               onClick={() => {
                 if (!loginInfo)
@@ -129,6 +129,7 @@ export function Wrapper(props: IWrapper) {
                 })
               }}
             />
+            <CreateFolderModal />
           </div>
         </div>
         <Tree
