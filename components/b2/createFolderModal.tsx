@@ -82,9 +82,19 @@ function insertNode(
   return false
 }
 
-function ProfileForm() {
-  const { selected, folder, setFolder } = useConfigStore()
-  const [tempFolder, setTempFolder] = useState<FolderTree[]>([])
+interface IProfileForm {
+  callback: () => void
+}
+function ProfileForm(props: IProfileForm) {
+  const { callback } = props
+  const { selected, folder, setFolder, setSelected } = useConfigStore()
+  const [tempFolder, setTempFolder] = useState<{
+    folders: FolderTree[]
+    selected: {
+      folder: string
+      id: string
+    }
+  }>()
   const FormSchema = z.object({
     folderName: z.string().regex(/^[\w-]+$/, {
       message: 'folder name must be alphanumeric, underscore, or hyphen',
@@ -116,11 +126,12 @@ function ProfileForm() {
       newFolder = `${newFolder.split('/').slice(0, -2).join('/')}/${folderName}/`
     }
 
+    const uid = uuidv4()
     insertNode(
       folderCopy,
       selected.id,
       {
-        id: uuidv4(),
+        id: uid,
         name: folderName,
         folder: newFolder,
         children: [],
@@ -128,12 +139,23 @@ function ProfileForm() {
       folderPosition ? 'child' : 'current',
     )
 
-    setTempFolder(folderCopy)
+    setTempFolder({
+      folders: folderCopy,
+      selected: {
+        folder: newFolder,
+        id: uid,
+      },
+    })
   }, [folderPosition, folderName])
 
   function onSubmit() {
-    if (tempFolder.length) {
-      setFolder(tempFolder)
+    if (tempFolder) {
+      setFolder(tempFolder.folders)
+      callback?.()
+      setSelected({
+        folder: tempFolder.selected.folder,
+        id: tempFolder.selected.id,
+      })
     }
   }
   return (
@@ -181,8 +203,12 @@ function ProfileForm() {
 }
 
 export function CreateFolderModal() {
+  const [open, setOpen] = useState(false)
   return (
-    <Dialog>
+    <Dialog
+      open={open}
+      onOpenChange={setOpen}
+    >
       <DialogTrigger>
         <Icon icon="fluent:folder-add-32-regular" className="h-[1.5em] w-[1.5em] cursor-pointer hover:scale-110" />
       </DialogTrigger>
@@ -192,7 +218,7 @@ export function CreateFolderModal() {
           <DialogDescription>
             The folder will be created in the currently selected folder, which is either the current directory or its parent directory.
           </DialogDescription>
-          <ProfileForm />
+          <ProfileForm callback={() => setOpen(false)} />
         </DialogHeader>
       </DialogContent>
     </Dialog>

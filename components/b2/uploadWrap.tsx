@@ -11,6 +11,7 @@ import { useToast } from '@/components/ui/use-toast'
 import { cn } from '@/lib/utils'
 import { useLogin } from '@/lib/hooks/useLogin'
 import { useConfigStore } from '@/lib/store/config'
+import { useFollowMouse } from '@/lib/hooks/useFollowMouse'
 
 interface UploadResult {
   file: File
@@ -64,6 +65,7 @@ export const UploadWrap = forwardRef((props: UploadWrapProps, ref) => {
   const [files, setFiles] = useState<FileItem[]>([])
   const { selected } = useConfigStore(state => state)
   const { toast } = useToast()
+  const { handleMouseDown, position } = useFollowMouse()
 
   useHotkeys('esc', () => {
     if (files.length) {
@@ -149,22 +151,6 @@ export const UploadWrap = forwardRef((props: UploadWrapProps, ref) => {
     },
   }))
 
-  useEffect(() => {
-    const sectionB2 = document.querySelector('#section-b2') as HTMLElement | null
-
-    if (sectionB2) {
-      if (isShow) {
-        sectionB2.style.overflow = 'hidden'
-        sectionB2.style.marginRight = '0.625rem'
-        sectionB2.scrollTop = 0 // 滚动到顶部
-      }
-      else {
-        sectionB2.style.overflow = 'auto'
-        sectionB2.style.marginRight = '0px'
-      }
-    }
-  }, [isShow])
-
   const handlePaste = (event: any) => {
     const items = event.clipboardData.items
     const uploadWaits = []
@@ -203,13 +189,17 @@ export const UploadWrap = forwardRef((props: UploadWrapProps, ref) => {
     <div
       className={cn(
         'dropzone',
-        'border-2 my-1 p-2 w-full h-[97%] rounded-md border-dashed',
-        'absolute top-2 left-0 z-10',
+        'border-2 my-1 p-2 w-1/4 h-1/3 rounded-md border-dashed',
+        'fixed z-10',
         'fadeIn animated',
         'dark:bg-[#6b6d758f] bg-[#23232391] backdrop-blur-sm',
         'hover:border-black dark:hover:border-accent cursor-pointer',
       )}
       {...getRootProps()}
+      style={{
+        top: position.y,
+        left: position.x,
+      }}
     >
       <input {...getInputProps()} />
       <div
@@ -237,103 +227,86 @@ export const UploadWrap = forwardRef((props: UploadWrapProps, ref) => {
         }
       >
         <Icon
+          icon="hugeicons:drag-drop-horizontal"
+          onMouseDown={handleMouseDown}
+          onClick={
+          (e) => {
+            e.stopPropagation()
+          }
+        }
+        />
+        <Icon
           icon="rivet-icons:close"
         />
         /ESC
       </div>
-      <div
-        className={
-          cn(
-            'absolute w-full text-white z-10',
-            'flex items-center justify-center gap-2',
-            files.length > 0 ? 'h-screen' : 'bottom-48',
-          )
-        }
-      >
-        <div className="flex-1 flex justify-center gap-1 items-center flex-col">
-          <div className={
-            cn(
-              'rounded-full dark:bg-accent bg-primary hover:scale-110 cursor-pointer px-12 py-2',
-              'flex justify-center gap-1 items-center flex-col',
-            )
-          }
-          >
-            <Icon icon="icon-park-outline:upload-two" className="text-2xl" />
-            <p className="text-center font-bold">Click to Upload or Drag and drop</p>
-            <p className="text-xs">Drop any jpg, png, gif, or...</p>
-          </div>
-        </div>
-        {
-          files?.length > 0 && (
-            <div
-              className={
+      {files?.length > 0 && (
+        <div
+          className={
                 cn(
                   'flex-[2]',
                   'overflow-hidden p-2',
                   'cursor-default',
                 )
               }
-              onClick={(e) => {
-                e.stopPropagation()
-              }}
-            >
-              <div className={
+          onClick={(e) => {
+            e.stopPropagation()
+          }}
+        >
+          <div className={
                 cn(
                   'bg-[#2323239e] border border-[#999]',
                   'm-2 rounded-xl overflow-hidden shadow',
                 )
               }
-              >
-                <div className="p-4 bg-[#333834]">
-                  <div className="flex justify-between">
-                    <h3>
-                      {`Uploading ${files?.length ?? 0} files`}
-                    </h3>
-                    <div
-                      className="text-sm cursor-pointer hover:scale-105"
-                      onClick={() => {
-                        setFiles([])
-                        setUploadResult({
-                          successNum: 0,
-                          failNum: 0,
-                        })
-                      }}
-                    >
-                      Cancel all
-                    </div>
-                  </div>
-                  <div>
-                    {`${uploadResult.successNum}/${files.length}`}
-                    {uploadResult.failNum}
-                  </div>
+          >
+            <div className="p-4 bg-[#333834]">
+              <div className="flex justify-between">
+                <h3>
+                  {`Uploading ${files?.length ?? 0} files`}
+                </h3>
+                <div
+                  className="text-sm cursor-pointer hover:scale-105"
+                  onClick={() => {
+                    setFiles([])
+                    setUploadResult({
+                      successNum: 0,
+                      failNum: 0,
+                    })
+                  }}
+                >
+                  Cancel all
                 </div>
-                <ul className="p-4 max-h-[70vh] overflow-auto scrollbar-thin scrollbar-w-8">
-                  {files?.map((file) => {
-                    return (
-                      <li
-                        key={file.uid}
-                        className={
+              </div>
+              <div>
+                {`${uploadResult.successNum}/${files.length}`}
+                {uploadResult.failNum}
+              </div>
+            </div>
+            <ul className="p-4 max-h-[70vh] overflow-auto scrollbar-thin scrollbar-w-8">
+              {files?.map((file) => {
+                return (
+                  <li
+                    key={file.uid}
+                    className={
                           cn(
                             'flex',
                             'my-2',
                           )
                         }
-                      >
-                        <div className="flex-[2] p-2">
-                          <img className="w-full" src={file.preview} alt="" />
-                        </div>
-                        <div className="flex-[5]">{file.name}</div>
-                        <div className="flex-1"></div>
-                      </li>
-                    )
-                  })}
-                </ul>
-              </div>
-            </div>
-          )
-        }
-
-      </div>
+                  >
+                    <div className="flex-[2] p-2">
+                      <img className="w-full" src={file.preview} alt="" />
+                    </div>
+                    <div className="flex-[5]">{file.name}</div>
+                    <div className="flex-1"></div>
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+        </div>
+      )}
     </div>
   )
 })

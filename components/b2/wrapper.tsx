@@ -113,22 +113,22 @@ export function Wrapper(props: IWrapper) {
     <div className="flex min-h-full space-x-2 relative">
       <aside className="flex-shrink-0 w-[300px] h-full p-2 border-r border-r-[--b2-other-color]">
         <div className="flex items-center justify-between p-2 text-[--b2-text-color-bold]">
-          <h4>File Manage</h4>
+          <h4
+            onClick={() => {
+              if (!loginInfo)
+                return
+              setFolder([])
+              getFolderTree(loginInfo)
+              setSelected({
+                folder: '',
+                id: '',
+              })
+            }}
+            className="cursor-pointer"
+          >
+            File Manage
+          </h4>
           <div className="flex gap-2">
-            <Icon
-              icon="solar:refresh-bold-duotone"
-              className="h-[1.5em] w-[1.5em] cursor-pointer hover:scale-110"
-              onClick={() => {
-                if (!loginInfo)
-                  return
-                setFolder([])
-                getFolderTree(loginInfo)
-                setSelected({
-                  folder: '',
-                  id: '',
-                })
-              }}
-            />
             <CreateFolderModal />
           </div>
         </div>
