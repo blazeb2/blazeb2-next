@@ -120,7 +120,7 @@ function ProfileForm(props: IProfileForm) {
     let newFolder = selected.folder
 
     if (folderPosition) {
-      newFolder = `${selected.folder}/${folderName}/`
+      newFolder = `${selected.folder}${folderName}/`
     }
     else if (newFolder) {
       newFolder = `${newFolder.split('/').slice(0, -2).join('/')}/${folderName}/`
